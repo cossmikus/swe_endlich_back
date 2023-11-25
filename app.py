@@ -82,7 +82,7 @@ class Vehicle(db.Model):
     driver_id = db.Column(db.Integer, db.ForeignKey("driver.driver_id"))
     model = db.Column(db.String)
     make = db.Column(db.String)
-    year = db.Column(db.Integer)
+    theyear = db.Column(db.Integer)
     license_plate = db.Column(db.String)
     sitting_capacity = db.Column(db.Integer)
     status = db.Column(db.String)
@@ -101,8 +101,8 @@ class AuctionVehicle(db.Model):
 class MaintenanceAssignment(db.Model):
     __tablename__ = "maintenance_assignment"
     maintenance_id = db.Column(db.Integer, primary_key=True)
-    cost = db.Column(db.Float)
-    date_and_time = db.Column(db.DateTime)
+    thecost = db.Column(db.Float)
+    date_and_time = db.Column(db.String)
     job_description = db.Column(db.String)
     created_by = db.Column(db.Integer, db.ForeignKey("maintenance_person.maintenance_person_id"))
     vehicle_id = db.Column(db.Integer, db.ForeignKey("vehicle.vehicle_id"))
@@ -119,7 +119,7 @@ class Fueling(db.Model):
     __tablename__ = "fueling"
     date_and_time = db.Column(db.DateTime, primary_key=True)
     fuel_amount = db.Column(db.Float)
-    cost = db.Column(db.Float)
+    thecost = db.Column(db.Float)
     proof_of_fueling = db.Column(db.String)
     updated_by = db.Column(db.Integer, db.ForeignKey("fueling_person.fueling_person_id"))
     vehicle_id = db.Column(db.Integer, db.ForeignKey("vehicle.vehicle_id"))
@@ -128,14 +128,14 @@ class Fueling(db.Model):
 class Route(db.Model):
     __tablename__ = "route"
     route_id = db.Column(db.Integer, primary_key=True)
-    start_time = db.Column(db.DateTime)
-    end_time = db.Column(db.DateTime)
+    start_time = db.Column(db.String)
+    end_time = db.Column(db.String)
     start_point_lang = db.Column(db.String)
     start_point_lat = db.Column(db.String)
     end_point_lang = db.Column(db.String)
     end_point_lat = db.Column(db.String)
     status = db.Column(db.String)
-    date = db.Column(db.Date)
+    thedate = db.Column(db.String)
     registered_by = db.Column(db.Integer, db.ForeignKey("the_admin.admin_id"))
 
 
@@ -620,10 +620,11 @@ def add_vehicle():
     data = request.get_json()
 
     new_vehicle = Vehicle(
+        vehicle_id=data.get('vehicle_id'),
         driver_id=data.get('driver_id'),
         model=data.get('model'),
         make=data.get('make'),
-        year=data.get('year'),
+        theyear=data.get('theyear'),
         license_plate=data.get('license_plate'),
         sitting_capacity=data.get('sitting_capacity'),
         status=data.get('status'),
@@ -653,7 +654,7 @@ def get_all_vehicles():
             'driver_id': vehicle.driver_id,
             'model': vehicle.model,
             'make': vehicle.make,
-            'year': vehicle.year,
+            'theyear': vehicle.theyear,
             'license_plate': vehicle.license_plate,
             'sitting_capacity': vehicle.sitting_capacity,
             'status': vehicle.status,
@@ -685,7 +686,7 @@ def update_vehicle(vehicle_id):
     vehicle.driver_id = data.get('driver_id', vehicle.driver_id)
     vehicle.model = data.get('model', vehicle.model)
     vehicle.make = data.get('make', vehicle.make)
-    vehicle.year = data.get('year', vehicle.year)
+    vehicle.theyear = data.get('theyear', vehicle.theyear)
     vehicle.license_plate = data.get('license_plate', vehicle.license_plate)
     vehicle.sitting_capacity = data.get('sitting_capacity', vehicle.sitting_capacity)
     vehicle.status = data.get('status', vehicle.status)
@@ -828,7 +829,8 @@ def add_maintenance_assignment():
     data = request.get_json()
 
     new_maintenance_assignment = MaintenanceAssignment(
-        cost=data.get('cost'),
+        maintenance_id=data.get('maintenance_id'),
+        thecost=data.get('thecost'),
         date_and_time=data.get('date_and_time'),
         job_description=data.get('job_description'),
         created_by=data.get('created_by'),
@@ -856,7 +858,7 @@ def get_maintenance_assignments():
         assignments_list = [
             {
                 "maintenance_id": assignment.maintenance_id,
-                "cost": assignment.cost,
+                "thecost": assignment.thecost,
                 "date_and_time": assignment.date_and_time,
                 "job_description": assignment.job_description,
                 "created_by": assignment.created_by,
@@ -885,7 +887,7 @@ def update_maintenance_assignment(maintenance_id):
 
     data = request.get_json()
 
-    maintenance_assignment.cost = data.get('cost', maintenance_assignment.cost)
+    maintenance_assignment.thecost = data.get('thecost', maintenance_assignment.thecost)
     maintenance_assignment.date_and_time = data.get('date_and_time', maintenance_assignment.date_and_time)
     maintenance_assignment.job_description = data.get('job_description', maintenance_assignment.job_description)
     maintenance_assignment.created_by = data.get('created_by', maintenance_assignment.created_by)
@@ -928,6 +930,7 @@ def add_part():
     data = request.get_json()
 
     new_part = Part(
+        part_number=data.get('part_number'),
         condition=data.get('condition'),
         requested_by=data.get('requested_by')
     )
@@ -1021,7 +1024,7 @@ def add_fueling():
     new_fueling = Fueling(
         date_and_time=data.get('date_and_time'),
         fuel_amount=data.get('fuel_amount'),
-        cost=data.get('cost'),
+        thecost=data.get('thecost'),
         proof_of_fueling=data.get('proof_of_fueling'),
         updated_by=data.get('updated_by'),
         vehicle_id=data.get('vehicle_id')
@@ -1049,7 +1052,7 @@ def get_fuelings():
             {
                 "date_and_time": fueling.date_and_time,
                 "fuel_amount": fueling.fuel_amount,
-                "cost": fueling.cost,
+                "thecost": fueling.thecost,
                 "proof_of_fueling": fueling.proof_of_fueling,
                 "updated_by": fueling.updated_by,
                 "vehicle_id": fueling.vehicle_id
@@ -1079,7 +1082,7 @@ def update_fueling(fueling_id):
 
     fueling.date_and_time = data.get('date_and_time', fueling.date_and_time)
     fueling.fuel_amount = data.get('fuel_amount', fueling.fuel_amount)
-    fueling.cost = data.get('cost', fueling.cost)
+    fueling.thecost = data.get('thecost', fueling.thecost)
     fueling.proof_of_fueling = data.get('proof_of_fueling', fueling.proof_of_fueling)
     fueling.updated_by = data.get('updated_by', fueling.updated_by)
     fueling.vehicle_id = data.get('vehicle_id', fueling.vehicle_id)
@@ -1121,6 +1124,7 @@ def add_route():
     data = request.get_json()
 
     new_route = Route(
+        route_id=data.get('thecost'),
         start_time=data.get('start_time'),
         end_time=data.get('end_time'),
         start_point_lang=data.get('start_point_lang'),
@@ -1128,7 +1132,7 @@ def add_route():
         end_point_lang=data.get('end_point_lang'),
         end_point_lat=data.get('end_point_lat'),
         status=data.get('status'),
-        date=data.get('date'),
+        thedate=data.get('thedate'),
         registered_by=data.get('registered_by')
     )
 
@@ -1160,7 +1164,7 @@ def get_routes():
                 "end_point_lang": route.end_point_lang,
                 "end_point_lat": route.end_point_lat,
                 "status": route.status,
-                "date": route.date,
+                "thedate": route.thedate,
                 "registered_by": route.registered_by
             }
             for route in routes
@@ -1193,7 +1197,7 @@ def update_route(route_id):
     route.end_point_lang = data.get('end_point_lang', route.end_point_lang)
     route.end_point_lat = data.get('end_point_lat', route.end_point_lat)
     route.status = data.get('status', route.status)
-    route.date = data.get('date', route.date)
+    route.thedate = data.get('thedate', route.thedate)
     route.registered_by = data.get('registered_by', route.registered_by)
 
     db.session.commit()
@@ -1233,6 +1237,7 @@ def add_task():
     data = request.get_json()
 
     new_task = Task(
+        task_id=data.get('task_id'),
         created_by=data.get('created_by'),
         route_id=data.get('route_id'),
         driver_id=data.get('driver_id')
