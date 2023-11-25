@@ -1124,7 +1124,7 @@ def add_route():
     data = request.get_json()
 
     new_route = Route(
-        route_id=data.get('thecost'),
+        route_id=data.get('route_id'),
         start_time=data.get('start_time'),
         end_time=data.get('end_time'),
         start_point_lang=data.get('start_point_lang'),
