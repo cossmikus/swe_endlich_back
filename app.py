@@ -79,23 +79,23 @@ class FuelingPerson(db.Model):
 class Vehicle(db.Model):
     __tablename__ = "vehicle"
     vehicle_id = db.Column(db.Integer, primary_key=True)
-    driver_id = db.Column(db.Integer, db.ForeignKey("driver.driver_id"))
+    driver_id = db.Column(db.Integer)
     model = db.Column(db.String)
     make = db.Column(db.String)
     theyear = db.Column(db.Integer)
     license_plate = db.Column(db.String)
     sitting_capacity = db.Column(db.Integer)
     status = db.Column(db.String)
-    registered_by = db.Column(db.Integer, db.ForeignKey("the_admin.admin_id"))
+    registered_by = db.Column(db.Integer)
 
 
 class AuctionVehicle(db.Model):
     __tablename__ = "auction_vehicle"
-    vehicle_id = db.Column(db.Integer, db.ForeignKey("vehicle.vehicle_id"), primary_key=True)
+    vehicle_id = db.Column(db.Integer, primary_key=True)
     description = db.Column(db.String)
     status = db.Column(db.String)
     images = db.Column(db.String)  # Assuming a string field for simplicity, consider a more suitable data type
-    added_by = db.Column(db.Integer, db.ForeignKey("the_admin.admin_id"))
+    added_by = db.Column(db.Integer)
 
 
 class MaintenanceAssignment(db.Model):
@@ -104,15 +104,15 @@ class MaintenanceAssignment(db.Model):
     thecost = db.Column(db.Float)
     date_and_time = db.Column(db.String)
     job_description = db.Column(db.String)
-    created_by = db.Column(db.Integer, db.ForeignKey("maintenance_person.maintenance_person_id"))
-    vehicle_id = db.Column(db.Integer, db.ForeignKey("vehicle.vehicle_id"))
+    created_by = db.Column(db.Integer)
+    vehicle_id = db.Column(db.Integer)
 
 
 class Part(db.Model):
     __tablename__ = "part"
     part_number = db.Column(db.Integer, primary_key=True)
     condition = db.Column(db.String)
-    requested_by = db.Column(db.Integer, db.ForeignKey("maintenance_person.maintenance_person_id"))
+    requested_by = db.Column(db.Integer)
 
 
 class Fueling(db.Model):
@@ -121,8 +121,8 @@ class Fueling(db.Model):
     fuel_amount = db.Column(db.Float)
     thecost = db.Column(db.Float)
     proof_of_fueling = db.Column(db.String)
-    updated_by = db.Column(db.Integer, db.ForeignKey("fueling_person.fueling_person_id"))
-    vehicle_id = db.Column(db.Integer, db.ForeignKey("vehicle.vehicle_id"))
+    updated_by = db.Column(db.Integer)
+    vehicle_id = db.Column(db.Integer)
 
 
 class Route(db.Model):
@@ -136,15 +136,15 @@ class Route(db.Model):
     end_point_lat = db.Column(db.String)
     status = db.Column(db.String)
     thedate = db.Column(db.String)
-    registered_by = db.Column(db.Integer, db.ForeignKey("the_admin.admin_id"))
+    registered_by = db.Column(db.Integer)
 
 
 class Task(db.Model):
     __tablename__ = "task"
     task_id = db.Column(db.Integer, primary_key=True)
-    created_by = db.Column(db.Integer, db.ForeignKey("the_admin.admin_id"))
-    route_id = db.Column(db.Integer, db.ForeignKey("route.route_id"))
-    driver_id = db.Column(db.Integer, db.ForeignKey("driver.driver_id"))
+    created_by = db.Column(db.Integer)
+    route_id = db.Column(db.Integer)
+    driver_id = db.Column(db.Integer)
 
 #registering admin row by admin
 @app.route('/api/the_admin/register', methods=['POST'])
