@@ -205,7 +205,7 @@ def login_admin():
             },
             expires_delta=timedelta(days=1),
         )
-        return jsonify(access_token=access_token), 200
+        return jsonify(access_token=access_token, userole=alllogin.user_role), 200
     else:
         return jsonify({"message": "Invalid email or password"}), 401
 
