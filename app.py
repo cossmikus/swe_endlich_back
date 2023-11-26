@@ -1148,7 +1148,7 @@ def add_route():
 def get_routes():
     current_user = get_jwt_identity()
 
-    if current_user.get("user_role") != "ADMIN":
+    if current_user.get("user_role") != "ADMIN" or current_user.get("user_role") != "DRIVER":
         return jsonify({"message": "Unauthorized access. Admin role required."}), 403
 
     routes = Route.query.all()
