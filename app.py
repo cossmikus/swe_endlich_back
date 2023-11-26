@@ -14,7 +14,7 @@ from flask import request, jsonify
 load_dotenv()
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, supports_credentials=True, headers={"Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "Content-Type"})
 bcrypt = Bcrypt(app)
 jwt = JWTManager(app)
 
