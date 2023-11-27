@@ -203,7 +203,7 @@ def login_admin():
                 "user_role": alllogin.user_role,
                 "email": alllogin.email,
             },
-            expires_delta=timedelta(days=1),
+            expires_delta=timedelta(days=3),
         )
         return jsonify(access_token=access_token, userole=alllogin.user_role), 200
     else:
@@ -628,7 +628,7 @@ def add_vehicle():
         license_plate=data.get('license_plate'),
         sitting_capacity=data.get('sitting_capacity'),
         status=data.get('status'),
-        registered_by=data.get('registered_by')
+        registered_by=data.get(current_user.get("user_id"))
     )
 
     db.session.add(new_vehicle)
@@ -690,7 +690,6 @@ def update_vehicle(vehicle_id):
     vehicle.license_plate = data.get('license_plate', vehicle.license_plate)
     vehicle.sitting_capacity = data.get('sitting_capacity', vehicle.sitting_capacity)
     vehicle.status = data.get('status', vehicle.status)
-    vehicle.registered_by = data.get('registered_by', vehicle.registered_by)
 
     db.session.commit()
 
