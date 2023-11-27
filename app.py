@@ -95,7 +95,6 @@ class AuctionVehicle(db.Model):
     description = db.Column(db.String)
     status = db.Column(db.String)
     images = db.Column(db.String)  # Assuming a string field for simplicity, consider a more suitable data type
-    added_by = db.Column(db.Integer)
 
 
 class MaintenanceAssignment(db.Model):
@@ -734,7 +733,6 @@ def add_auction_vehicle():
         description=data.get('description'),
         status=data.get('status'),
         images=data.get('images'),
-        added_by=current_user.get("user_id")
     )
 
     db.session.add(new_auction_vehicle)
@@ -760,7 +758,6 @@ def get_all_auction_vehicles():
             'description': auction_vehicle.description,
             'status': auction_vehicle.status,
             'images': auction_vehicle.images,
-            'added_by': auction_vehicle.added_by
         } for auction_vehicle in auction_vehicles]
 
         return jsonify(auction_vehicle_list)
