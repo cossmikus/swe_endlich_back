@@ -628,7 +628,7 @@ def add_vehicle():
         license_plate=data.get('license_plate'),
         sitting_capacity=data.get('sitting_capacity'),
         status=data.get('status'),
-        registered_by=data.get(current_user.get("user_id"))
+        registered_by=current_user.get("user_id")
     )
 
     db.session.add(new_vehicle)
