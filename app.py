@@ -734,7 +734,7 @@ def add_auction_vehicle():
         description=data.get('description'),
         status=data.get('status'),
         images=data.get('images'),
-        added_by=data.get('added_by')
+        added_by=current_user.get("user_id")
     )
 
     db.session.add(new_auction_vehicle)
@@ -788,7 +788,6 @@ def update_auction_vehicle(vehicle_id):
     auction_vehicle.description = data.get('description', auction_vehicle.description)
     auction_vehicle.status = data.get('status', auction_vehicle.status)
     auction_vehicle.images = data.get('images', auction_vehicle.images)
-    auction_vehicle.added_by = data.get('added_by', auction_vehicle.added_by)
 
     db.session.commit()
 
@@ -832,7 +831,7 @@ def add_maintenance_assignment():
         thecost=data.get('thecost'),
         date_and_time=data.get('date_and_time'),
         job_description=data.get('job_description'),
-        created_by=data.get('created_by'),
+        created_by=current_user.get("user_id"),
         vehicle_id=data.get('vehicle_id')
     )
 
@@ -889,7 +888,6 @@ def update_maintenance_assignment(maintenance_id):
     maintenance_assignment.thecost = data.get('thecost', maintenance_assignment.thecost)
     maintenance_assignment.date_and_time = data.get('date_and_time', maintenance_assignment.date_and_time)
     maintenance_assignment.job_description = data.get('job_description', maintenance_assignment.job_description)
-    maintenance_assignment.created_by = data.get('created_by', maintenance_assignment.created_by)
     maintenance_assignment.vehicle_id = data.get('vehicle_id', maintenance_assignment.vehicle_id)
 
     db.session.commit()
@@ -931,7 +929,7 @@ def add_part():
     new_part = Part(
         part_number=data.get('part_number'),
         condition=data.get('condition'),
-        requested_by=data.get('requested_by')
+        requested_by=current_user.get("user_id")
     )
 
     db.session.add(new_part)
@@ -982,7 +980,6 @@ def update_part(part_number):
     data = request.get_json()
 
     part.condition = data.get('condition', part.condition)
-    part.requested_by = data.get('requested_by', part.requested_by)
 
     db.session.commit()
 
@@ -1025,7 +1022,7 @@ def add_fueling():
         fuel_amount=data.get('fuel_amount'),
         thecost=data.get('thecost'),
         proof_of_fueling=data.get('proof_of_fueling'),
-        updated_by=data.get('updated_by'),
+        updated_by=current_user.get("user_id"),
         vehicle_id=data.get('vehicle_id')
     )
 
@@ -1083,7 +1080,6 @@ def update_fueling(fueling_id):
     fueling.fuel_amount = data.get('fuel_amount', fueling.fuel_amount)
     fueling.thecost = data.get('thecost', fueling.thecost)
     fueling.proof_of_fueling = data.get('proof_of_fueling', fueling.proof_of_fueling)
-    fueling.updated_by = data.get('updated_by', fueling.updated_by)
     fueling.vehicle_id = data.get('vehicle_id', fueling.vehicle_id)
 
     db.session.commit()
@@ -1132,7 +1128,7 @@ def add_route():
         end_point_lat=data.get('end_point_lat'),
         status=data.get('status'),
         thedate=data.get('thedate'),
-        registered_by=data.get('registered_by')
+        registered_by=current_user.get("user_id")
     )
 
     db.session.add(new_route)
@@ -1197,7 +1193,6 @@ def update_route(route_id):
     route.end_point_lat = data.get('end_point_lat', route.end_point_lat)
     route.status = data.get('status', route.status)
     route.thedate = data.get('thedate', route.thedate)
-    route.registered_by = data.get('registered_by', route.registered_by)
 
     db.session.commit()
 
@@ -1237,7 +1232,7 @@ def add_task():
 
     new_task = Task(
         task_id=data.get('task_id'),
-        created_by=data.get('created_by'),
+        created_by=current_user.get("user_id"),
         route_id=data.get('route_id'),
         driver_id=data.get('driver_id')
     )
@@ -1290,7 +1285,6 @@ def update_task(task_id):
 
     data = request.get_json()
 
-    task.created_by = data.get('created_by', task.created_by)
     task.route_id = data.get('route_id', task.route_id)
     task.driver_id = data.get('driver_id', task.driver_id)
 
