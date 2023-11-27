@@ -101,7 +101,7 @@ class MaintenanceAssignment(db.Model):
     __tablename__ = "maintenance_assignment"
     maintenance_id = db.Column(db.Integer, primary_key=True)
     thecost = db.Column(db.Float)
-    date_and_time = db.Column(db.String)
+    date_and_time = db.Column(db.DateTime)
     job_description = db.Column(db.String)
     created_by = db.Column(db.Integer)
     vehicle_id = db.Column(db.Integer)
@@ -818,7 +818,7 @@ def delete_auction_vehicle(vehicle_id):
 def add_maintenance_assignment():
     current_user = get_jwt_identity()
 
-    if current_user.get("user_role") != "ADMIN" or current_user.get("user_role") != "MAINTENANCE_PERSON":
+    if current_user.get("user_role") != "ADMIN" and current_user.get("user_role") != "MAINTENANCE_PERSON":
         return jsonify({"message": "Unauthorized access. Admin role required."}), 403
 
     data = request.get_json()
@@ -844,7 +844,7 @@ def add_maintenance_assignment():
 def get_maintenance_assignments():
     current_user = get_jwt_identity()
 
-    if current_user.get("user_role") != "ADMIN" or current_user.get("user_role") != "MAINTENANCE_PERSON":
+    if current_user.get("user_role") != "ADMIN" and current_user.get("user_role") != "MAINTENANCE_PERSON":
         return jsonify({"message": "Unauthorized access. Admin role required."}), 403
 
     maintenance_assignments = MaintenanceAssignment.query.all()
@@ -918,7 +918,7 @@ def delete_maintenance_assignment(maintenance_id):
 def add_part():
     current_user = get_jwt_identity()
 
-    if current_user.get("user_role") != "ADMIN" or current_user.get("user_role") != "MAINTENANCE_PERSON":
+    if current_user.get("user_role") != "ADMIN" and current_user.get("user_role") != "MAINTENANCE_PERSON":
         return jsonify({"message": "Unauthorized access. Admin role required."}), 403
 
     data = request.get_json()
@@ -941,7 +941,7 @@ def add_part():
 def get_parts():
     current_user = get_jwt_identity()
 
-    if current_user.get("user_role") != "ADMIN" or current_user.get("user_role") != "MAINTENANCE_PERSON":
+    if current_user.get("user_role") != "ADMIN" and current_user.get("user_role") != "MAINTENANCE_PERSON":
         return jsonify({"message": "Unauthorized access. Admin role required."}), 403
 
     parts = Part.query.all()
@@ -1009,7 +1009,7 @@ def delete_part(part_number):
 def add_fueling():
     current_user = get_jwt_identity()
 
-    if current_user.get("user_role") != "ADMIN" or current_user.get("user_role") != "FUELING_PERSON":
+    if current_user.get("user_role") != "ADMIN" and current_user.get("user_role") != "FUELING_PERSON":
         return jsonify({"message": "Unauthorized access. Admin role required."}), 403
 
     data = request.get_json()
@@ -1035,7 +1035,7 @@ def add_fueling():
 def get_fuelings():
     current_user = get_jwt_identity()
 
-    if current_user.get("user_role") != "ADMIN" or current_user.get("user_role") != "FUELING_PERSON":
+    if current_user.get("user_role") != "ADMIN" and current_user.get("user_role") != "FUELING_PERSON":
         return jsonify({"message": "Unauthorized access. Admin role required."}), 403
 
     fuelings = Fueling.query.all()
@@ -1140,7 +1140,7 @@ def add_route():
 def get_routes():
     current_user = get_jwt_identity()
 
-    if current_user.get("user_role") != "ADMIN" or current_user.get("user_role") != "DRIVER":
+    if current_user.get("user_role") != "ADMIN" and current_user.get("user_role") != "DRIVER":
         return jsonify({"message": "Unauthorized access. Admin role required."}), 403
 
     routes = Route.query.all()
